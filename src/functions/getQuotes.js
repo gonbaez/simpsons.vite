@@ -1,7 +1,8 @@
 import axios from "axios";
 import offlineData from "../offlineData";
+import { SET_QUOTES } from "../redux/types";
 
-export const getQuotes = async (dispatchFun, count = 50) => {
+export const getQuotes = async (dispatch, count = 50) => {
   const response = await axios.get(
     `https://thesimpsonsquoteapi.glitch.me/quotes?count=${count}`
   );
@@ -16,5 +17,5 @@ export const getQuotes = async (dispatchFun, count = 50) => {
     return el;
   });
 
-  dispatchFun({ type: "SET_QUOTES", payload: response.data });
+  dispatch({ type: SET_QUOTES, payload: response.data });
 };

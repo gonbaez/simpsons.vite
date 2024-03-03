@@ -5,10 +5,20 @@ import { IoMdHeart } from "react-icons/io";
 
 import styles from "../styles/LikeButton.module.css";
 
-const LikeButton = ({ onLike, like, id }) => {
+import { LIKE } from "../redux/types";
+import { useDispatch } from "react-redux";
+
+const LikeButton = ({ like, id }) => {
+  const dispatch = useDispatch();
+
   return (
     <>
-      <button onClick={() => onLike(id)} className={styles.likeButton}>
+      <button
+        onClick={() => {
+          dispatch({ type: LIKE, payload: id });
+        }}
+        className={styles.likeButton}
+      >
         {like ? <IoMdHeart /> : <IoMdHeartEmpty />}
       </button>
     </>

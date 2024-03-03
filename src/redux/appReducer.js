@@ -1,15 +1,19 @@
 import Joi from "joi";
-import { searchSchema } from "./functions/validationSchemas.js";
+import { searchSchema } from "../functions/validationSchemas.js";
+import {
+  DELETE,
+  DELETE_CONFIRM,
+  FILTER,
+  LIKE,
+  SCROLL,
+  SET_QUOTES,
+} from "./types.js";
 
-export const initialState = {
-  quotes: null,
-  filteredQuotes: null,
-  filter: { searchString: "" },
-};
+import { initialState } from "./initialState.js";
 
 export function reducer(state, action) {
   switch (action.type) {
-    case "SET_QUOTES": {
+    case SET_QUOTES: {
       const quotes = action.payload;
 
       quotes[0].selected = true;
@@ -22,9 +26,9 @@ export function reducer(state, action) {
       };
     }
 
-    case "FILTER": {
+    case FILTER: {
       const { quotes } = state;
-      let { selectedIndex } = state;
+      let { selectedIndex, filteredQuotes } = state;
 
       const searchValue = action.payload;
 
@@ -44,35 +48,35 @@ export function reducer(state, action) {
 
       if (!quotes) return;
 
-      let filteredData = quotes;
+      filteredQuotes = quotes;
 
-      filteredData = quotes.filter((el) => {
+      filteredQuotes = quotes.filter((el) => {
         const name = el.character.toLowerCase();
         return name.includes(searchValue.toLowerCase());
       });
 
-      if (filteredData.length > 0) {
-        switch (filteredData.filter((el) => el.selected).length) {
+      if (filteredQuotes.length > 0) {
+        switch (filteredQuotes.filter((el) => el.selected).length) {
           case 0:
-            selectedIndex = quotes.findIndex((el) => el === filteredData[0]);
-            filteredData[0].selected = true;
+            selectedIndex = quotes.findIndex((el) => el === filteredQuotes[0]);
+            filteredQuotes[0].selected = true;
 
             break;
           case 1:
             break;
           default:
-            filteredData = filteredData.map((el) => {
+            filteredQuotes = filteredQuotes.map((el) => {
               el.selected = false;
               return el;
             });
 
-            filteredData[selectedIndex].selected = true;
+            filteredQuotes[selectedIndex].selected = true;
         }
       }
 
       return {
         ...state,
-        filteredQuotes: filteredData,
+        filteredQuotes,
         filter: {
           searchString: searchValue,
           searchError: "",
@@ -80,7 +84,7 @@ export function reducer(state, action) {
         selectedIndex,
       };
     }
-    case "LIKE": {
+    case LIKE: {
       const { filteredQuotes } = state;
       const idToLike = action.payload;
       const index = filteredQuotes.findIndex((el) => el.id === idToLike);
@@ -90,7 +94,7 @@ export function reducer(state, action) {
       return { ...state, filteredQuotes };
     }
 
-    case "SELECT_INDEX": {
+    case SCROLL: {
       const { filteredQuotes } = state;
       const scrollOffset = action.payload;
 
@@ -112,7 +116,7 @@ export function reducer(state, action) {
 
       return { ...state, selectedIndex: index + scrollOffset, filteredQuotes };
     }
-    case "DELETE": {
+    case DELETE: {
       const idToDelete = action.payload;
 
       const { filteredQuotes } = state;
@@ -129,7 +133,7 @@ export function reducer(state, action) {
       return { ...state, filteredQuotes };
     }
 
-    case "DELETE_CONFIRM":
+    case DELETE_CONFIRM:
       const idToDeleteConfirm = action.payload;
 
       const { filteredQuotes, quotes } = state;
@@ -153,6 +157,7 @@ export function reducer(state, action) {
       }
 
       return { ...state, quotes, filteredQuotes };
+
     default:
       return initialState;
   }

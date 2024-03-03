@@ -8,23 +8,20 @@ import { FaQuoteLeft } from "react-icons/fa6";
 import { FaQuoteRight } from "react-icons/fa6";
 
 import classNames from "classnames";
+import { useDispatch } from "react-redux";
+import { DELETE } from "../redux/types";
 
 const Character = ({
   quote,
   image,
   character,
   characterDirection,
-  onLike,
   selected,
   like,
   id,
-  onDelete,
-  onDeleteConfirm,
   deleteConfirm,
   selectedElement,
 }) => {
-  // const classNames = require("classnames");
-
   return (
     <li
       className={classNames(
@@ -41,13 +38,8 @@ const Character = ({
           <FaQuoteRight />
         </div>
         <div className={styles.characterFeedbackContainer}>
-          <LikeButton onLike={onLike} like={like} id={id} />
-          <DeleteButton
-            onDelete={onDelete}
-            onDeleteConfirm={onDeleteConfirm}
-            deleteConfirm={deleteConfirm}
-            id={id}
-          />
+          <LikeButton like={like} id={id} />
+          <DeleteButton deleteConfirm={deleteConfirm} id={id} />
         </div>
       </div>
       <div

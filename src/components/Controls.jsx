@@ -6,15 +6,18 @@ import { FaUser } from "react-icons/fa";
 import styles from "../styles/Controls.module.css";
 
 import classNames from "classnames";
+import { useDispatch, useSelector } from "react-redux";
+import { FILTER } from "../redux/types";
 
-const Controls = ({
-  onSearch,
-  likes,
-  characters,
-  searchError,
-  searchString,
-}) => {
-  //const classNames = require("classnames");
+const Controls = () => {
+  const dispatch = useDispatch();
+
+  const searchError = useSelector((state) => state.filter.searchError);
+  const searchString = useSelector((state) => state.filter.searchString);
+  const filteredQuotes = useSelector((state) => state.filteredQuotes);
+
+  const likes = filteredQuotes.filter((el) => el.like).length;
+  const characters = filteredQuotes.length;
 
   return (
     <>
@@ -27,7 +30,7 @@ const Controls = ({
             )}
             type="text"
             placeholder="Search character"
-            onInput={onSearch}
+            onInput={(e) => dispatch({ type: FILTER, payload: e.target.value })}
             value={searchString}
           />
           <span className={styles.errorMessage}>{searchError}</span>
