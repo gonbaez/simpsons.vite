@@ -1,2 +1,3 @@
 Like and delete not re-rendering but they are changing the state.
 Where should I be putting useRef?
+How do I put getQuotes outside the component?
