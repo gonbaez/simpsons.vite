@@ -19,5 +19,4 @@ export const getQuotes = async (dispatch, count = 50) => {
   });
 
   store.dispatch({ type: SET_QUOTES, payload: response.data });
-  // dispatch({ type: SET_QUOTES, payload: response.data });
 };

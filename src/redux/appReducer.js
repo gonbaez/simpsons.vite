@@ -27,8 +27,9 @@ export function reducer(state, action) {
     }
 
     case FILTER: {
-      const { quotes } = state;
-      let { selectedIndex, filteredQuotes } = state;
+      const quotes = [...state.quotes];
+      let selectedIndex = [...state.selectedIndex];
+      let filteredQuotes = [...state.filteredQuotes];
 
       const searchValue = action.payload;
 
@@ -95,7 +96,7 @@ export function reducer(state, action) {
     }
 
     case SCROLL: {
-      const { filteredQuotes } = state;
+      const filteredQuotes = [...state.filteredQuotes];
       const scrollOffset = action.payload;
 
       const index = filteredQuotes.findIndex((el) => el.selected);
@@ -134,9 +135,11 @@ export function reducer(state, action) {
     }
 
     case DELETE_CONFIRM:
+      console.log("DELETE_CONFIRM");
       const idToDeleteConfirm = action.payload;
 
-      const { filteredQuotes, quotes } = state;
+      const quotes = [...state.quotes];
+      const filteredQuotes = [...state.filteredQuotes];
 
       const indexInQuotes = quotes.findIndex(
         (el) => el.id === idToDeleteConfirm

@@ -1,3 +1,3 @@
-Like and delete not re-rendering but they are changing the state.
-Where should I be putting useRef?
-How do I put getQuotes outside the component?
+Like and delete not re-rendering but they are changing the state. > NEED TO USE THE SPREAD OPERATOR!
+Where should I be putting useRef? > It was correct putting it in the Parent (Characters.jsx)
+How do I put getQuotes outside the component? > Make getQuotes talk to the store directly.
