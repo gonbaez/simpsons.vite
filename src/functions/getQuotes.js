@@ -1,6 +1,7 @@
 import axios from "axios";
 import offlineData from "../offlineData";
 import { SET_QUOTES } from "../redux/types";
+import { store } from "../main";
 
 export const getQuotes = async (dispatch, count = 50) => {
   const response = await axios.get(
@@ -17,5 +18,6 @@ export const getQuotes = async (dispatch, count = 50) => {
     return el;
   });
 
-  dispatch({ type: SET_QUOTES, payload: response.data });
+  store.dispatch({ type: SET_QUOTES, payload: response.data });
+  // dispatch({ type: SET_QUOTES, payload: response.data });
 };

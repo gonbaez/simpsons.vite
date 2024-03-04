@@ -85,7 +85,7 @@ export function reducer(state, action) {
       };
     }
     case LIKE: {
-      const { filteredQuotes } = state;
+      const filteredQuotes = [...state.filteredQuotes];
       const idToLike = action.payload;
       const index = filteredQuotes.findIndex((el) => el.id === idToLike);
 
@@ -119,7 +119,7 @@ export function reducer(state, action) {
     case DELETE: {
       const idToDelete = action.payload;
 
-      const { filteredQuotes } = state;
+      const filteredQuotes = [...state.filteredQuotes];
       const index = filteredQuotes.findIndex((el) => el.id === idToDelete);
 
       if (index < 0) {
